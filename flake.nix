@@ -58,11 +58,7 @@
         nativeBuildInputs = with pkgs; [
           rust
           rust-src
-          rustc
-          cargo
           rust-analyzer
-          rustfmt
-          clippy
           rustracer
         ];
         buildInputs = with pkgs; [
