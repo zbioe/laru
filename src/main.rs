@@ -57,4 +57,5 @@ async fn main() -> WebDriverResult<()> {
 
     // Always explicitly close the browser. There are no async destructors.
     //driver.quit().await?;
+    Ok(())
 }
