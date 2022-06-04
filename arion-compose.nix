@@ -2,14 +2,14 @@
 {
   config.services = {
 
-#    webapp = {
-#      service = {
-#        image = "stevepryde/thirtyfour_testapp:0.1.0";
-#        ports = [
-#          "8000:80"
-#        ];
-#      };
-#    };
+   # bot = {
+   #   service = {
+   #     image = "stevepryde/thirtyfour_testapp:0.1.0";
+   #     ports = [
+   #       "4444:4444"
+   #     ];
+   #   };
+   # };
     selenium = {
       composition = {
         shm_size = "2gb";

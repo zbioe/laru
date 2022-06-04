@@ -7,11 +7,14 @@
 //!     arion-up
 //!
 
-use std::{thread, time::Duration};
-use thirtyfour::{prelude::*, query::*};
+use std::time::Duration;
+use thirtyfour::prelude::*;
 
 #[tokio::main]
-async fn main() -> WebDriverResult<()> {
+async fn main() -> color_eyre::Result<()> {
+    color_eyre::install()?;
+    std::env::set_var("RUST_BACKTRACE", "1");
+
     let mut caps = DesiredCapabilities::chrome();
     caps.add_chrome_option(
         "prefs",
@@ -21,12 +24,14 @@ async fn main() -> WebDriverResult<()> {
     )?;
 
     let driver = WebDriver::new("http://localhost:4444", caps).await?;
-    let poller =
-        ElementPoller::TimeoutWithInterval(Duration::new(10, 0), Duration::from_millis(500));
-    driver.set_query_poller(poller);
+    // let poller = ElementPoller::TimeoutWithInterval(Duration::from_secs(4), Duration::from_secs(6));
+    // driver.set_query_poller(poller);
+    driver
+        .set_implicit_wait_timeout(Duration::from_secs(5))
+        .await?;
     // Navigate to twitter
     driver.get("https://twitter.com/i/flow/login").await?;
-    thread::sleep(Duration::from_millis(4000));
+    // thread::sleep(Duration::from_millis(4000));
     // Find element.
     let username = driver
         .find_element(By::Css("input[autocomplete='username']"))
@@ -36,7 +41,7 @@ async fn main() -> WebDriverResult<()> {
         .find_element(By::XPath("//div[@role='button' and contains(.,'Next')]"))
         .await?;
     username_button.click().await?;
-    thread::sleep(Duration::from_millis(1000));
+    // thread::sleep(Duration::from_millis(1000));
     let username = driver
         .find_element(By::Css("input[autocomplete='current-password']"))
         .await?;
